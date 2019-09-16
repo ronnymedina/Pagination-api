@@ -26,7 +26,6 @@ const [data, total] = await getRepository(User)
 
 
 // or find
-
 const [data, total] = await userRepository.findAndCount({ 
   order: { 
     columnName: 'ASC',
