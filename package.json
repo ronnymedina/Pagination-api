@@ -1,0 +1,33 @@
+{
+  "name": "pagination-api",
+  "version": "1.0.0",
+  "description": "Page your api",
+  "main": "dist/index.js",
+  "types" : "dist/index.d.ts",
+  "scripts": {
+    "build": "./node_modules/.bin/tsc",
+    "test": "mocha --reporter spec"
+  },
+  "repository": {
+    "url": "git+https://github.com/ronnymedinave/Pagination-api.git"
+  },
+  "keywords": [
+    "api",
+    "paginate",
+    "pagination",
+    "page",
+    "data",
+    "javascript"
+  ],
+  "author": "Ronny M",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ronnymedinave/Pagination-api/issues"
+  },
+  "homepage": "https://github.com/ronnymedinave/Pagination-api#readme",
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^6.2.0",
+    "typescript": "^3.6.3"
+  }
+}
