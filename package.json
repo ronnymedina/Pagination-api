@@ -1,6 +1,6 @@
 {
   "name": "pagination-apis",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Page your api",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
