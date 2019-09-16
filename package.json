@@ -1,5 +1,5 @@
 {
-  "name": "pagination-api",
+  "name": "pagination-apis",
   "version": "1.0.0",
   "description": "Page your api",
   "main": "dist/index.js",
@@ -19,7 +19,7 @@
     "data",
     "javascript"
   ],
-  "author": "Ronny M",
+  "author": "Ronny M <ronnyzte@gmail.com>",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/ronnymedinave/Pagination-api/issues"

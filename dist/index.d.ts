@@ -1,15 +1,15 @@
 interface PaginatedResult {
     totalPages: number;
-    totalData: number;
+    countTotalData: number;
     data: Array<any>;
-    nextUrl?: string;
-    previusUrl?: string;
+    next?: string;
+    previous?: string;
 }
 declare class Paginator {
     page: number;
     limit: number;
     skip: number;
     constructor(page: string, limit: string, defaultLimit?: number);
-    paginate(data: Array<any>, totalData: number, url: string): PaginatedResult;
+    paginate(data: Array<any>, countTotalData: number, url: string): PaginatedResult;
 }
 export = Paginator;

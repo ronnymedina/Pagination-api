@@ -1,13 +1,13 @@
 interface PaginatedResult {
   totalPages: number;
 
-  totalData: number;
+  countTotalData: number;
 
   data: Array<any>;
 
-  nextUrl?: string;
+  next?: string;
 
-  previusUrl?: string;
+  previous?: string;
 }
 
 class Paginator {
@@ -26,24 +26,24 @@ class Paginator {
     this.skip = (this.page > 0 ? this.page - 1 : this.page) * this.limit;
   }
 
-  public paginate(data: Array<any>, totalData: number, url: string): PaginatedResult {
-    const totalPages: number = Math.ceil((totalData / this.limit));
+  public paginate(data: Array<any>, countTotalData: number, url: string): PaginatedResult {
+    const totalPages: number = Math.ceil((countTotalData / this.limit));
     const countData: number = data.length;
 
     const result: PaginatedResult = {
       totalPages,
-      totalData,
+      countTotalData,
       data,
     };
 
     // next page
-    if (countData < totalData && this.page < totalPages) {
-      result.nextUrl = `${url}?limit=${this.limit}&page=${this.page + 1}`;
+    if (countData < countTotalData && this.page < totalPages) {
+      result.next = `${url}?limit=${this.limit}&page=${this.page + 1}`;
     }
 
-    // previus page
+    // previous page
     if (this.page > 1 && countData) {
-      result.previusUrl = `${url}?limit=${this.limit}&page=${this.page - 1}`;
+      result.previous = `${url}?limit=${this.limit}&page=${this.page - 1}`;
     }
 
     return result;

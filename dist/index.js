@@ -8,21 +8,21 @@ var Paginator = /** @class */ (function () {
         this.limit = !parseLimit ? defaultLimit : parseLimit;
         this.skip = (this.page > 0 ? this.page - 1 : this.page) * this.limit;
     }
-    Paginator.prototype.paginate = function (data, totalData, url) {
-        var totalPages = Math.ceil((totalData / this.limit));
+    Paginator.prototype.paginate = function (data, countTotalData, url) {
+        var totalPages = Math.ceil((countTotalData / this.limit));
         var countData = data.length;
         var result = {
             totalPages: totalPages,
-            totalData: totalData,
+            countTotalData: countTotalData,
             data: data,
         };
         // next page
-        if (countData < totalData && this.page < totalPages) {
-            result.nextUrl = url + "?limit=" + this.limit + "&page=" + (this.page + 1);
+        if (countData < countTotalData && this.page < totalPages) {
+            result.next = url + "?limit=" + this.limit + "&page=" + (this.page + 1);
         }
-        // previus page
+        // previous page
         if (this.page > 1 && countData) {
-            result.previusUrl = url + "?limit=" + this.limit + "&page=" + (this.page - 1);
+            result.previous = url + "?limit=" + this.limit + "&page=" + (this.page - 1);
         }
         return result;
     };
