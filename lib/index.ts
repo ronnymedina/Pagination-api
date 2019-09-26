@@ -26,7 +26,12 @@ class Paginator {
     this.skip = (this.page > 0 ? this.page - 1 : this.page) * this.limit;
   }
 
-  public paginate(data: Array<any>, countTotalData: number, url: string): PaginatedResult {
+  public paginate(
+    data: Array<any>,
+    countTotalData: number,
+    url: string,
+    connectorUrl: string = '?',
+  ): PaginatedResult {
     const totalPages: number = Math.ceil((countTotalData / this.limit));
     const countData: number = data.length;
 
@@ -38,12 +43,12 @@ class Paginator {
 
     // next page
     if (countData < countTotalData && this.page < totalPages) {
-      result.next = `${url}?limit=${this.limit}&page=${this.page + 1}`;
+      result.next = `${url}${connectorUrl}limit=${this.limit}&page=${this.page + 1}`;
     }
 
     // previous page
     if (this.page > 1 && countData) {
-      result.previous = `${url}?limit=${this.limit}&page=${this.page - 1}`;
+      result.previous = `${url}${connectorUrl}limit=${this.limit}&page=${this.page - 1}`;
     }
 
     return result;

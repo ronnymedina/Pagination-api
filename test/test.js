@@ -66,6 +66,15 @@ describe('Paginator', () => {
       expect(result).to.have.property('next', '/api/example?limit=10&page=3');
     });
 
+    it('should change url connector', () => {
+      const data = new Array(10).fill({ id: 1, name: 'example' });
+      const paginate = new Paginator(2, 10);
+      const result = paginate.paginate(data, 40, '/api/example?id=20', '&');
+
+      expect(result).to.have.property('previous', '/api/example?id=20&limit=10&page=1');
+      expect(result).to.have.property('next', '/api/example?id=20&limit=10&page=3');
+    });
+
     it('should not show property next if it is the last page', () => {
       const paginate = new Paginator(4, 10);
       const result = paginate.paginate(new Array(10).fill(false), 40, '/api/example');

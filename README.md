@@ -60,3 +60,12 @@ output result
 */
 
 ```
+
+Change url connector
+
+```javascript
+const result = paginate.paginate(data, total, '/api/example?id=20', '&');
+
+```
+
+`/api/example?id=20&limit=10&page=3`
