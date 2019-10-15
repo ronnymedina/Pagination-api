@@ -10,7 +10,7 @@ You only need to pass the data and the total query
 
 ```typescript
 
-import Pagination from 'pagination-apis';
+import Paginator from 'pagination-apis';
 
 // or
 const Paginator = require('pagination-apis');
