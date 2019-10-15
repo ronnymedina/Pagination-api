@@ -6,7 +6,18 @@ You only need to pass the data and the total query
 
 `npm i pagination-apis`
 
+### import
+
+```typescript
+
+import Pagination from 'pagination-apis';
+
+// or
+const Paginator = require('pagination-apis');
+```
+
 ### Example with typeorm
+
 
 ```javascript
 
@@ -21,7 +32,7 @@ const [data, total] = await getRepository(User)
   .createQueryBuilder('user')
   .where('user.name = :id', { id: 1 })
   .skip(paginate.skip)
-  .take(limit)
+  .take(paginate.limit)
   .getManyAndCount();
 
 
@@ -31,7 +42,7 @@ const [data, total] = await userRepository.findAndCount({
     columnName: 'ASC',
   }, 
   skip: paginate.skip,
-  take: limit, 
+  take: paginate.limit, 
 });
 
 const result = paginate.paginate(data, total, '/api/example');
