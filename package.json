@@ -27,7 +27,7 @@
   "homepage": "https://github.com/ronnymedinave/Pagination-api#readme",
   "devDependencies": {
     "chai": "^4.2.0",
-    "mocha": "^6.2.0",
+    "mocha": "^8.0.1",
     "typescript": "^3.6.3"
   }
 }
