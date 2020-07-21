@@ -9,13 +9,14 @@ You only need to pass the data and the total query
 ### import
 
 ```js
-import buildPaginator from 'pagination-apis';
+import * as buildPaginator from 'pagination-apis';
 
 // or
 const buildPaginator = require('pagination-apis');
 ```
 
-### build paginator
+**build paginator**
+
 All parameters are optional.
 ```ts
 PaginationParams {
@@ -24,13 +25,11 @@ PaginationParams {
   maximumLimit?: number|string;
   url?: string;
 }
-
 ```
 - If `page` is empty or invalid by default page is 1.
-- If `limit` is empty or invalid by default page is 50.
-- `maximumLimit` by default is 50.
+- If `limit` is empty or invalid by default page is 50. The `limit` is always less than.
+- `maximumLimit` by default is 50. always try to pass a safe value and avoid making a big query.
 - `url` If pass url it shows the next and previous properties.
-
 ```js
 import buildPaginator from 'pagination-apis';
 
@@ -40,16 +39,58 @@ console.log(limit) // 50
 console.log(page) // 1
 
 // example 2
-const { limit, page } = buildPaginator({ page: 2, limit: 30 });
+const { limit, page } = buildPaginator({ page: 2, limit: 30, maximumLimit: 100 });
 
 console.log(limit) // 30
 console.log(page) // 2
+
+// example url without params
+const { paginate } = buildPaginator({ url: '/api/example' });
+
+console.log(paginate([], 150));
+/*
+{ 
+  totalPages: 2,
+  total: 100,
+  data: [],
+  next: '/api/example?limit=50&page=2',
+  previous: '/api/example?limit=50&page=1',
+}
+*/
+
+// example url with params
+const { paginate } = buildPaginator({ url: '/api/example?id=30' });
+
+console.log(paginate([], 150));
+/*
+{ 
+  totalPages: 2,
+  total: 100,
+  data: [],
+  next: '/api/example?id=30&limit=50&page=2',
+  previous: '/api/example?id=30&limit=50&page=1',
+}
+*/
+
+const { paginate } = buildPaginator({ url: '/api/example?id=30&q=hola' });
+
+console.log(paginate([], 150));
+/*
+{ 
+  totalPages: 2,
+  total: 100,
+  data: [],
+  next: '/api/example?id=30&q=hola&limit=50&page=2',
+  previous: '/api/example?id=30&q=hola&limit=50&page=1',
+}
+*/
+
 ```
 
 ### Example with typeorm
 
 ```js
-import buildPaginator from 'pagination-apis';
+import * as buildPaginator from 'pagination-apis';
 
 const { skip, limit, paginate } = buildPaginator({page: 1, limit: 10});
 
@@ -61,7 +102,6 @@ const [data, total] = await getRepository(User)
   .take(limit)
   .getManyAndCount();
 
-
 // or find
 const [data, total] = await userRepository.findAndCount({ 
   order: { columnName: 'ASC' }, 
@@ -70,13 +110,23 @@ const [data, total] = await userRepository.findAndCount({
 });
 
 return paginate(data, total, '/api/example');
+```
 
-// result 2
-return paginate(data, total);
+# Example with sequelize
+```ts
+const { page, limit, skip, paginate } = buildPaginator({limit: 10, page: 1});
 
-/*
-output result
+const {count, rows} = await model.findAndCountAll({
+  limit,
+  offset: skip,
+  where: {userId},
+});
 
+return paginate(rows, count);
+```
+
+### Example output
+```json
 { 
   totalPages: 4,
   total: 40,
@@ -95,23 +145,4 @@ output result
   next: '/api/example?limit=10&page=3',
   previous: '/api/example?limit=10&page=1',
 }
-
-output result 2
-
-{ 
-  totalPages: 4,
-  total: 40,
-  data: [
-    { id: 1, name: 'example' },
-    { id: 1, name: 'example' },
-    { id: 1, name: 'example' },
-    { id: 1, name: 'example' },
-    { id: 1, name: 'example' },
-    { id: 1, name: 'example' },
-    { id: 1, name: 'example' },
-    { id: 1, name: 'example' },
-    { id: 1, name: 'example' },
-    { id: 1, name: 'example' },
-  ],
-}
-*/
+```

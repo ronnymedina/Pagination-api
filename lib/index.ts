@@ -25,7 +25,11 @@ const buildPaginator = (params: PaginationParams = {}) => {
   const parsePage = parseInt(<string>params.page, 10) || 1;
   const parseLimit = parseInt(<string>params.limit, 10) || DEFAULT_LIMIT;
   const maximumLimit = parseInt(<string>params.maximumLimit, 10) || DEFAULT_LIMIT;
-  const connectorUrl = params.url && params.url.includes('&') ? '&' : '?';
+
+  const connectorUrl = (
+    params.url && (
+      params.url.includes('&') || (params.url.includes('?') && !params.url.includes('&'))
+    ) ? '&' : '?');
 
   const page = parsePage;
   const limit = parseLimit > maximumLimit ? maximumLimit : parseLimit;
@@ -57,4 +61,4 @@ const buildPaginator = (params: PaginationParams = {}) => {
   };
 };
 
-export default buildPaginator;
+export = buildPaginator;

@@ -1,11 +1,11 @@
 {
   "name": "pagination-apis",
-  "version": "1.1.5",
+  "version": "1.1.6",
   "description": "Page your api",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "./node_modules/.bin/tsc",
+    "build": "tsc",
     "test": "jest --coverage --colors"
   },
   "repository": {
@@ -42,5 +42,9 @@
     "ts-jest": "^26.1.3",
     "typescript": "^3.9.7"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  }
 }

@@ -1,4 +1,4 @@
-import buildPaginator from '../lib';
+import * as buildPaginator from '../lib';
 
 describe('Paginator', () => {
   it('should return attributes limit, page, skip, paginate', () => {
@@ -88,10 +88,15 @@ describe('Paginator', () => {
       const result2 = buildPaginator({ url: '/api/example?id=30&e=true', page: 2, limit: 10 })
         .paginate(new Array(10), 40);
 
+      const result3 = buildPaginator({ url: '/api/example?id=30', page: 2, limit: 10 })
+        .paginate(new Array(10), 40);
+
       expect(result).toHaveProperty('next', '/api/example?limit=10&page=3');
       expect(result).toHaveProperty('previous', '/api/example?limit=10&page=1');
       expect(result2).toHaveProperty('next', '/api/example?id=30&e=true&limit=10&page=3');
       expect(result2).toHaveProperty('previous', '/api/example?id=30&e=true&limit=10&page=1');
+      expect(result3).toHaveProperty('next', '/api/example?id=30&limit=10&page=3');
+      expect(result3).toHaveProperty('previous', '/api/example?id=30&limit=10&page=1');
     });
   });
 });

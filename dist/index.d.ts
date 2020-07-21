@@ -17,4 +17,4 @@ declare const buildPaginator: (params?: PaginationParams) => {
     skip: number;
     paginate: (data: Array<any>, total: number) => Paginate;
 };
-export default buildPaginator;
+export = buildPaginator;
