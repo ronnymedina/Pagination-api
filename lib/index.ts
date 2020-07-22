@@ -1,58 +1,64 @@
-interface PaginatedResult {
-  totalPages: number;
-
-  countTotalData: number;
-
-  data: Array<any>;
-
-  next?: string;
-
-  previous?: string;
+interface PaginationParams {
+  page?: number|string;
+  limit?: number|string;
+  maximumLimit?: number|string;
+  url?: string;
 }
 
-class Paginator {
-  public page: number;
+interface Paginate {
+  data: Array<any>;
+  total: number;
+  totalPages: number;
+  previous?: string;
+  next?: string;
+}
 
-  public limit: number;
+/**
+ * @constant
+ * @type {number}
+ * @default
+ */
+const DEFAULT_LIMIT = 50;
 
-  public skip: number;
+const buildPaginator = (params: PaginationParams = {}) => {
+  // default values
+  const parsePage = parseInt(<string>params.page, 10) || 1;
+  const parseLimit = parseInt(<string>params.limit, 10) || DEFAULT_LIMIT;
+  const maximumLimit = parseInt(<string>params.maximumLimit, 10) || DEFAULT_LIMIT;
 
-  public constructor(page: string, limit: string, defaultLimit = 10) {
-    const parsePage: number = parseInt(page, 10);
-    const parseLimit: number = parseInt(limit, 10);
+  const connectorUrl = (
+    params.url && (
+      params.url.includes('&') || (params.url.includes('?') && !params.url.includes('&'))
+    ) ? '&' : '?');
 
-    this.page = !parsePage ? 1 : parsePage;
-    this.limit = !parseLimit ? defaultLimit : parseLimit;
-    this.skip = (this.page > 0 ? this.page - 1 : this.page) * this.limit;
-  }
+  const page = parsePage;
+  const limit = parseLimit > maximumLimit ? maximumLimit : parseLimit;
+  const skip = (page - 1) * limit;
 
-  public paginate(
-    data: Array<any>,
-    countTotalData: number,
-    url: string,
-    connectorUrl: string = '?',
-  ): PaginatedResult {
-    const totalPages: number = Math.ceil((countTotalData / this.limit));
-    const countData: number = data.length;
-
-    const result: PaginatedResult = {
-      totalPages,
-      countTotalData,
-      data,
-    };
+  const paginate = (data: Array<any>, total: number): Paginate => {
+    const totalPages = Math.ceil((total / limit));
+    const countData = data.length;
+    const result: Paginate = { data, totalPages, total };
 
     // next page
-    if (countData < countTotalData && this.page < totalPages) {
-      result.next = `${url}${connectorUrl}limit=${this.limit}&page=${this.page + 1}`;
+    if (countData < total && page < totalPages && params.url) {
+      result.next = `${params.url}${connectorUrl}limit=${limit}&page=${page + 1}`;
     }
 
     // previous page
-    if (this.page > 1 && countData) {
-      result.previous = `${url}${connectorUrl}limit=${this.limit}&page=${this.page - 1}`;
+    if (page > 1 && countData > 0 && params.url) {
+      result.previous = `${params.url}${connectorUrl}limit=${limit}&page=${page - 1}`;
     }
 
     return result;
-  }
-}
+  };
 
-export = Paginator;
+  return {
+    page,
+    limit,
+    skip,
+    paginate,
+  };
+};
+
+export = buildPaginator;

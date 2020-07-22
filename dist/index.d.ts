@@ -1,16 +1,20 @@
-interface PaginatedResult {
-  totalPages: number;
-  countTotalData: number;
-  data: Array<any>;
-  next?: string;
-  previous?: string;
+interface PaginationParams {
+    page?: number | string;
+    limit?: number | string;
+    maximumLimit?: number | string;
+    url?: string;
 }
-declare class Paginator {
-  page: number;
-  limit: number;
-  skip: number;
-  constructor(page: string, limit: string, defaultLimit?: number);
-  paginate(data: Array<any>, countTotalData: number, url: string, connectorUrl?: string): PaginatedResult;
+interface Paginate {
+    data: Array<any>;
+    total: number;
+    totalPages: number;
+    previous?: string;
+    next?: string;
 }
-
-export = Paginator;
+declare const buildPaginator: (params?: PaginationParams) => {
+    page: number;
+    limit: number;
+    skip: number;
+    paginate: (data: Array<any>, total: number) => Paginate;
+};
+export = buildPaginator;

@@ -1,12 +1,12 @@
 {
   "name": "pagination-apis",
-  "version": "1.0.5",
+  "version": "1.0.8",
   "description": "Page your api",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "./node_modules/.bin/tsc",
-    "test": "mocha --reporter spec"
+    "build": "tsc",
+    "test": "jest --coverage --colors"
   },
   "repository": {
     "url": "git+https://github.com/ronnymedinave/Pagination-api.git"
@@ -17,7 +17,12 @@
     "pagination",
     "page",
     "data",
-    "javascript"
+    "javascript",
+    "typeorm",
+    "sequelize",
+    "node",
+    "typescript",
+    "json"
   ],
   "author": "Ronny M <ronnyzte@gmail.com>",
   "license": "ISC",
@@ -26,8 +31,20 @@
   },
   "homepage": "https://github.com/ronnymedinave/Pagination-api#readme",
   "devDependencies": {
-    "chai": "^4.2.0",
-    "mocha": "^6.2.0",
-    "typescript": "^3.6.3"
+    "@types/jest": "^26.0.5",
+    "@typescript-eslint/eslint-plugin": "^3.7.0",
+    "@typescript-eslint/parser": "^3.7.0",
+    "eslint": "^7.5.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-config-airbnb-typescript": "^9.0.0",
+    "eslint-plugin-import": "^2.22.0",
+    "jest": "^26.1.0",
+    "ts-jest": "^26.1.3",
+    "typescript": "^3.9.7"
+  },
+  "dependencies": {},
+  "directories": {
+    "lib": "lib",
+    "test": "test"
   }
 }
